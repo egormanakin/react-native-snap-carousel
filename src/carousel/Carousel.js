@@ -766,7 +766,7 @@ export default class Carousel extends Component {
     }
 
     _onScroll (event) {
-        const { callbackOffsetMargin, enableMomentum, onScroll } = this.props;
+        const { callbackOffsetMargin, enableMomentum, onItemChanged, onScroll } = this.props;
 
         const scrollOffset = event ? this._getScrollOffset(event) : this._currentContentOffset;
         const nextActiveItem = this._getActiveItem(scrollOffset);
@@ -788,6 +788,10 @@ export default class Carousel extends Component {
 
             if (this._activeItem !== nextActiveItem) {
                 this._activeItem = nextActiveItem;
+                
+                if (typeof onItemChanged === 'function') {
+                    onItemChanged(nextActiveItem, event);
+                }
             }
 
             if (itemReached) {
